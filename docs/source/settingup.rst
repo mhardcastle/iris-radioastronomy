@@ -1,10 +1,5 @@
-.. Signing up for Dirac/HPC Resources documentation master file, created by
-   sphinx-quickstart on Thu Dec  2 15:48:58 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Signing up for Dirac/HPC Resources documentation!
-==============================================================
+Signing up for Dirac/HPC Resources
+==================================
 
 `DiRAC <https://dirac.ac.uk>`_ is funded by the STFC and provides High Performance Computing (HPC) facilities. At present DiRAC HPC facilities are hosted at Cambridge, Durham, Edinburgh and Leicester Universities.
 
