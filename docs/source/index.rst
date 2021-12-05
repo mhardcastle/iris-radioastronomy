@@ -14,5 +14,5 @@ Contents
 .. toctree::
 
    settingup
-   usage
-   api
+   singularity
+   

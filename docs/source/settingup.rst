@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Signing up for Dirac/HPC Resources's documentation!
+Signing up for Dirac/HPC Resources documentation!
 ==============================================================
 
 `DiRAC <https://dirac.ac.uk>`_ is funded by the STFC and provides High Performance Computing (HPC) facilities. At present DiRAC HPC facilities are hosted at Cambridge, Durham, Edinburgh and Leicester Universities.
@@ -63,13 +63,13 @@ Logging on to Cambridge HPC
 
 	.. code-block:: console
 
-		(.venv) $ ssh (username)@login.hpc.cam.ac.uk
+		(host) $ ssh (username)@login.hpc.cam.ac.uk
 
 	or enter the following to access the GPU
 
 	.. code-block:: console
 
-		(.venv) $ ssh (username)@login-gpu.hpc.cam.ac.uk
+		(host) $ ssh (username)@login-gpu.hpc.cam.ac.uk
 
 #. When logging in to the CPU, if asked to accept one of the following fingerprints, type ``yes``
 
@@ -81,9 +81,9 @@ Logging on to Cambridge HPC
 	* \MD5:fd:5c:6b:7d:49:95:2f:da:7f:5c:50:9a:bb:ef:3f:24
 	* \SHA256:2rl+MXd9rsrDzFZwEItmhhiHTlLTIqN0d3TSGLTgjTI
 
-	After accepting the fingerprint your computer will remember it when logging on in the future
+	After accepting the fingerprint your computer will remember it when logging on in the future.
 
-#. After logging in the first time you will be asked to choose a new password. This password will then be used for logging in to both CPU and GPU. Your password will *not* be visible in your SAFE account
+#. After logging in the first time you will be asked to choose a new password. This password will then be used for logging in to both CPU and GPU. Your password will *not* be visible in your SAFE account.
 
 Your account has a storage allocation of 40GB in your home directory. Snapshots of your home directory are taken hourly/daily/weekly. If you delete a file by accident go to /home/.zfs/snapshot and browse the appropriate snapshot for the file which can then be copied back to your home directory.
 

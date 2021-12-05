@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'IRIS Radio Astronomy'
+copyright = '2021 IRIS Radio Astronomy team @ UH'
+author = 'Hardcastle, Horton, Smart, Webster'
 
 release = '0.1'
 version = '0.1.0'
