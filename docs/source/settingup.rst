@@ -6,7 +6,7 @@ Signing up for Dirac/HPC Resources
 This document describes how to register to use the DiRAC HPC facility hosted at the University of Cambridge. The Cambridge HPC is described in detail `here <https://www.hpc.cam.ac.uk>`_. In order to use the Cambridge HPC facility users must first register on SAFE before applying for a DiRAC account.
 
 
-.. _registerSAFE
+.. _registerSAFE:
 
 Registering on SAFE
 -------------------
@@ -28,14 +28,14 @@ Registering on SAFE
 After registering, should you need to change any of your details, go to `SAFE <https://safe.epcc.ed.ac.uk/dirac/>`_ and sign in using your email address and password.
 
 
-.. _registerDIRAC
+.. _registerDIRAC:
 
 Registering on DiRAC
 --------------------
 
 In order to register on DiRAC you must first have a SAFE account as described in :ref:`Registering on SAFE`. Registering for the Cambridge HPC will grant access to both Central Processing Unit (CPU) and Graphics Processing Unit (GPU) architectures. The CPU is designed to run quickly and handle a wide range of tasks but has limited concurrency whereas the GPU is designed to optimise rendering of images and can perform multiple parallel operations.
 
-#. If not already logged in, log in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`_
+#. If not already logged in, log in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`__
 #. Go to the `Request login account page <https://safe.epcc.ed.ac.uk/dirac/TransitionServlet/User//-/Transition=Choose%20Project>`_
 #. Enter the project code ``tp001`` and click "Next"
 #. Select ``Cambridge_HPC`` and click "Next"
@@ -52,7 +52,7 @@ In order to register on DiRAC you must first have a SAFE account as described in
 Logging on to Cambridge HPC
 ---------------------------
 
-#. In order to log on to the HPC for the first time find your password for the Cambridge HPC by logging in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`_ (if not already logged in)
+#. In order to log on to the HPC for the first time find your password for the Cambridge HPC by logging in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`__ (if not already logged in)
 #. Under the "Login Accounts" heading select "(username)@Cambridge_HPC" where username should be replaced with the name supplied during the DiRAC registration process. Click the button labelled "View Login Account Password" and make a note of the password displayed
 #. Open a terminal command prompt and, replacing username with the name supplied during the DiRAC registration process, enter the following to access the CPU:
 
