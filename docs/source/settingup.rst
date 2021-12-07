@@ -33,7 +33,7 @@ After registering, should you need to change any of your details, go to `SAFE <h
 Registering on DiRAC
 --------------------
 
-In order to register on DiRAC you must first have a SAFE account as described in :ref:`Registering on SAFE`. Registering for the Cambridge HPC will grant access to both Central Processing Unit (CPU) and Graphics Processing Unit (GPU) architectures. The CPU is designed to run quickly and handle a wide range of tasks but has limited concurrency whereas the GPU is designed to optimise rendering of images and can perform multiple parallel operations.
+In order to register on DiRAC you must first have a SAFE account as described in :ref:`Registering on SAFE<registerSAFE>`. Registering for the Cambridge HPC will grant access to both Central Processing Unit (CPU) and Graphics Processing Unit (GPU) architectures. The CPU is designed to run quickly and handle a wide range of tasks but has limited concurrency whereas the GPU is designed to optimise rendering of images and can perform multiple parallel operations.
 
 #. If not already logged in, log in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`__
 #. Go to the `Request login account page <https://safe.epcc.ed.ac.uk/dirac/TransitionServlet/User//-/Transition=Choose%20Project>`_
