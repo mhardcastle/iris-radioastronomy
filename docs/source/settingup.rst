@@ -15,7 +15,7 @@ Registering on SAFE
 
 #. Go to the SAFE `New User Signup Form <https://safe.epcc.ed.ac.uk/dirac/signup.jsp>`_
 
-	.. _fig-SAFERegistration
+	.. _fig-SAFERegistration:
 	.. figure:: images/SAFERegistration.png
 		:width: 600
 	
