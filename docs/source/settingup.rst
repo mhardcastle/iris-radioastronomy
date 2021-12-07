@@ -53,7 +53,7 @@ Logging on to Cambridge HPC
 ---------------------------
 
 #. In order to log on to the HPC for the first time find your password for the Cambridge HPC by logging in to your SAFE account `here <https://safe.epcc.ed.ac.uk/dirac/>`_ (if not already logged in)
-#. Under the "Login Accounts" heading select "(username)@Cambridge_HPC" where username should be replaced with the name supplied during the DIRAC registration process. Click the button labelled "View Login Account Password" and make a note of the password displayed
+#. Under the "Login Accounts" heading select "(username)@Cambridge_HPC" where username should be replaced with the name supplied during the DiRAC registration process. Click the button labelled "View Login Account Password" and make a note of the password displayed
 #. Open a terminal command prompt and, replacing username with the name supplied during the DiRAC registration process, enter the following to access the CPU:
 
 	.. code-block:: console
