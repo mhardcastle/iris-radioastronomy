@@ -15,4 +15,4 @@ Contents
 
    settingup
    singularity
-   
+   cambridgehpc
