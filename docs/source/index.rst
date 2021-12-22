@@ -16,3 +16,4 @@ Contents
    settingup
    singularity
    cambridgehpc
+   VLA_Basic_Imaging
