@@ -1,3 +1,5 @@
+.. _use-of-singularity:
+
 Use of Singularity
 ==================
 
