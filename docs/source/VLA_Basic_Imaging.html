@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLA Basic Imaging &mdash; IRIS Radio Astronomy 0.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Cambridge CSD3 cheat sheet" href="cambridgehpc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> IRIS Radio Astronomy
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="settingup.html">Signing up for Dirac/HPC Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="singularity.html">Use of Singularity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cambridgehpc.html">Cambridge CSD3 cheat sheet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VLA Basic Imaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flagging">Flagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calibration">Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imaging">Imaging</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IRIS Radio Astronomy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>VLA Basic Imaging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/VLA_Basic_Imaging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="vla-basic-imaging">
+<h1>VLA Basic Imaging<a class="headerlink" href="#vla-basic-imaging" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial uses the measurement set from the CASA tutorial <a class="reference external" href="https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0">VLA Continuum Tutorial 3C 391</a> to generate an image of the supernova remnant 3C 391. The data in the measurement set was taken using a bandwidth of 128 MHz centred at 4.6 GHz with the VLA in D configuration. The data set includes polarisation data that is not used in this workflow.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>The data required for this workflow can be downloaded from the CASA tutorial web page <a class="reference external" href="https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0">VLA Continuum Tutorial 3C 391</a>. N.B. This data set has been modified to include only the data necessary to run this workflow, if desired the full observation can be downloaded from the <a class="reference external" href="https://archive.nrao.edu/archive/advquery.jsp">VLA Archive</a> using the archive file id <code class="docutils literal notranslate"><span class="pre">TDEM0001_sb1218006_1.55310.33439732639</span></code>. If downloading from the VLA archive it is normally easiest to download it as a tar file.</p>
+<p>After downloading the data untar it:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(host)</span> <span class="gp">$</span> tar -xzvf 3c391_ctm_mosaic_10s_spw0.ms.tgz
+</pre></div>
+</div>
+</div></blockquote>
+<p>There are four fields in this observation</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>field 0 is 3C 286 (also referred to as J1331+3030), the bandpass calibrator</p></li>
+<li><p>field 1 is J1822-0938, the phase calibrator</p></li>
+<li><p>fields 2-8 inclusive are the mosaicked fields that make up 3C 391, the target</p></li>
+<li><p>field 9 is 3C 84 (also referred to as J0319+4130), the polarization calibrator. This field is unused in this workflow</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>This observation was taken on the 24th April 2010 between 08:02 and 16:00. The operators log can be downloaded from <a class="reference external" href="http://www.vla.nrao.edu/cgi-bin/oplogs.cgi">here</a>.</p></li>
+<li><p>Load the singularity module by entering:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(host)</span> <span class="gp">$</span> module load singularity
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Download the singularity image created in <a class="reference internal" href="singularity.html#use-of-singularity"><span class="std std-ref">Use of Singularity</span></a>. The following command downloads the most up to date image which is 1.3 GB and so this may take some time!</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(host)</span> <span class="gp">$</span> singularity pull library://mhardcastle/default/casa
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>CASA is started automatically when the singularity image is run:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(host)</span> <span class="gp">$</span> singularity run casa_latest.sif
+</pre></div>
+</div>
+</div></blockquote>
+<p>N.B. If the data and singularity are not installed in the users home directory the above command will load CASA but any files saved will be output to the home directory rather than the current working directory. To specify which directory on the server is to be  treated as the home directory within the singularity use the -H command. For example, to change the singularity home directory to <em>/beegfs/lofar/user</em> start the singularity using:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(host)</span> <span class="gp">$</span> singularity run -H /beegfs/lofar/user:/home casa_latest.sif
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="flagging">
+<h2>Flagging<a class="headerlink" href="#flagging" title="Permalink to this headline">¶</a></h2>
+<p>All the following commands are run from the CASA command prompt inside the singularity</p>
+<ol class="arabic">
+<li><p>The operators log states that antenna <em>ea13</em> has no receiver and <em>ea15</em> has corrupted data. Both antennas are therefore flagged:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> flagdata<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0.ms&#39;</span>, <span class="nv">flagbackup</span><span class="o">=</span>True, <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;manual&#39;</span>, <span class="nv">antenna</span><span class="o">=</span><span class="s1">&#39;ea13,ea15&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Generate a file containing the observation log. The following command will create a file called 3C391.listobs.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> listobs<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0.ms&#39;</span>, <span class="nv">verbose</span><span class="o">=</span>True, <span class="nv">listfile</span><span class="o">=</span><span class="s1">&#39;3C391.listobs&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>From the observation log it can be seen that the first scan of the bandpass calibrator, 3C 286, was extremely short (20 seconds). This was a setup scan which is therefore flagged:</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> flagdata<span class="o">((</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0.ms&#39;</span>, <span class="nv">flagbackup</span><span class="o">=</span>True, <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;manual&#39;</span>, <span class="nv">scan</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>At the start of each scan it typically takes a few moments for the VLA antennas to settle into position. As a result it is common practice to remove the first few seconds of data from the start of each scan. In the example below we flag (or <cite>quack</cite>) the first 10 seconds of each scan.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> flagdata<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0.ms&#39;</span>, <span class="nv">flagbackup</span><span class="o">=</span>True, <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;quack&#39;</span>, <span class="nv">quackinterval</span><span class="o">=</span><span class="m">10</span>.0, <span class="nv">quackmode</span><span class="o">=</span><span class="s1">&#39;beg&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Sharp peaks in RFI may cause Gibbs ringing. This usually occurs for narrow band RFI and is observable as a zig-zag pattern in the neighbouring channels. To prevent this the data can be Hanning smoothed. N.B. Hanning smoothing decreases the spectral resolution by a factor of two and may not be appropriate when performing spectral analysis.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> hanningsmooth<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0.ms&#39;</span>, <span class="nv">outputvis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">datacolumn</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Using <em>tfcrop</em> to automatically flag any visibility amplitude outliers. In the code below it flags data more than 3 standard deviations away from both the time and frequency fits.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> flagdata<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;tfcrop&#39;</span>, <span class="nv">datacolumn</span><span class="o">=</span><span class="s1">&#39;data&#39;</span>, <span class="nv">timecutoff</span><span class="o">=</span><span class="m">3</span>.0, <span class="nv">freqcutoff</span><span class="o">=</span><span class="m">3</span>.0<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>RFI-rich spectral windows may still contain significant amounts of RFI. To improve flagging we increase the contrast between clean and affected data by performing a coarse preliminary bandpass calibration to take out the bandpass shape from the data.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gencal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>, <span class="nv">caltype</span><span class="o">=</span><span class="s1">&#39;antpos&#39;</span><span class="o">)</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gaincal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G0&#39;</span>, <span class="nv">gaintype</span><span class="o">=</span><span class="s1">&#39;G&#39;</span>, <span class="nv">calmode</span><span class="o">=</span><span class="s1">&#39;p&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;int&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">minsnr</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;0:27~36&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span><span class="o">])</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gaincal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K0&#39;</span>, <span class="nv">gaintype</span><span class="o">=</span><span class="s1">&#39;K&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;inf&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">minsnr</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;0:5~58&#39;</span>, <span class="nv">combine</span><span class="o">=</span><span class="s1">&#39;scan&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G0&#39;</span><span class="o">])</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> bandpass<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B0&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;inf&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;&#39;</span>, <span class="nv">combine</span><span class="o">=</span><span class="s1">&#39;scan&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G0&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K0&#39;</span><span class="o">])</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> applycal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">calwt</span><span class="o">=</span>False, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G0&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K0&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B0&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Having done the preliminary bandpass we can now use <em>rflag</em> to do some more flagging. In this example we flag RFI that is more than 5 standard deviations away from both the time and frequency-calculated median values.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> flagdata<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">mode</span><span class="o">=</span><span class="s1">&#39;rflag&#39;</span> <span class="nv">datacolumn</span><span class="o">=</span><span class="s1">&#39;corrected&#39;</span>, <span class="nv">timedevscale</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">freqdevscale</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">flagbackup</span><span class="o">=</span>True<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="calibration">
+<h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Before calculating the final calibration tables we must remove the preliminary calibration that was done in order to run <em>rflag</em></p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> clearcal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span><span class="o">)</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> setjy<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">model</span><span class="o">=</span><span class="s1">&#39;3C286_C.im&#39;</span>, <span class="nv">standard</span><span class="o">=</span><span class="s1">&#39;Perley-Butler 2017&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Now that all the RFI is (hopefully) removed, we calculate the final calibration tables for the primary calibrator, which in this example is 3C 286 (field 0).</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gaincal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G1&#39;</span>, <span class="nv">gaintype</span><span class="o">=</span><span class="s1">&#39;G&#39;</span>, <span class="nv">calmode</span><span class="o">=</span><span class="s1">&#39;p&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;int&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;0:27~36&#39;</span>, <span class="nv">minsnr</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span><span class="o">])</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gaincal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span>, <span class="nv">gaintype</span><span class="o">=</span><span class="s1">&#39;K&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;inf&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;0:5~58&#39;</span>, <span class="nv">combine</span><span class="o">=</span><span class="s1">&#39;scan&#39;</span>, <span class="nv">minsnr</span><span class="o">=</span><span class="m">5</span>.0, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G1&#39;</span><span class="o">])</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> bandpass<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B1&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;inf&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;&#39;</span>, <span class="nv">combine</span><span class="o">=</span><span class="s1">&#39;scan&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G1&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Calculate the gain calibration table for the primary and secondary calibrators simultaneously</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> gaincal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G2&#39;</span>, <span class="nv">gaintype</span><span class="o">=</span><span class="s1">&#39;G&#39;</span>, <span class="nv">calmode</span><span class="o">=</span><span class="s1">&#39;ap&#39;</span>, <span class="nv">solint</span><span class="o">=</span><span class="s1">&#39;inf&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0,1&#39;</span>, <span class="nv">refant</span><span class="o">=</span><span class="s1">&#39;ea21&#39;</span>, <span class="nv">spw</span><span class="o">=</span><span class="s1">&#39;0:5~58&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms.rq&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B1&#39;</span><span class="o">])</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Scale the amplitude gains, N.B. Setting <em>incremental=False</em> makes a new output table that replaces the gain calibration table.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> fluxscale<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">caltable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.G2&#39;</span>, <span class="nv">fluxtable</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.fluxscale2&#39;</span>, <span class="nv">reference</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">transfer</span><span class="o">=[</span><span class="s1">&#39;1&#39;</span><span class="o">]</span>, <span class="nv">incremental</span><span class="o">=</span>False<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Apply the calibration</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> applycal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.fluxscale2&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B1&#39;</span><span class="o">]</span>, <span class="nv">gainfield</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;0&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">interp</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;nearest&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">calwt</span><span class="o">=</span>False<span class="o">)</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> applycal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;1&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.fluxscale2&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B1&#39;</span><span class="o">]</span>, <span class="nv">gainfield</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;1&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">interp</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;nearest&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">calwt</span><span class="o">=</span>False<span class="o">)</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> applycal<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;2~8&#39;</span>, <span class="nv">gaintable</span><span class="o">=[</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.antpos&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.fluxscale2&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.K1&#39;</span>,<span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.B1&#39;</span><span class="o">]</span>, <span class="nv">gainfield</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;1&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">interp</span><span class="o">=[</span><span class="s1">&#39;&#39;</span>,<span class="s1">&#39;linear&#39;</span>,<span class="s1">&#39;&#39;</span>,<span class="s1">&#39;&#39;</span><span class="o">]</span>, <span class="nv">calwt</span><span class="o">=</span>False<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="imaging">
+<h2>Imaging<a class="headerlink" href="#imaging" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Before starting to image the data it is recommended to run <em>statwt</em> to remove any noise scatter that may have been caused by flagging.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> statwt<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">datacolumn</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>When cleaning an image, it is recommended that the pixel size is set so that there are at least 4-5 pixels across the beam. The image in this example has a resolution of 12 arcsec and so a pixel size of 2.5 arcsec is chosen.</p></li>
+<li><p>When using the VLA there is significant sensitivity outside of the main lobe of the primary beam. Any sources detected in the sidelobes need cleaning and removing from the dirty beam. This can be done either by using outlier fields or, as in this tutorial, creating very large images that encompass these interfering sources. We therefore create images that are approximately twice the size of the primary beam. In this example this is 20 arcmin.</p></li>
+<li><p>In addition, the CASA algorithm <em>tclean</em> is computationally faster when using image sizes of 5*2 <sup>n</sup> *3 <sup>m</sup> pixels where n and m are integer numbers. Therefore, in this workflow we generate images that are 480 pixels both vertically and horizontally</p></li>
+<li><p>Create the dirty image.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> tclean<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;2~8&#39;</span>,imagename<span class="o">=</span><span class="s1">&#39;3C391_Dirty&#39;</span>, <span class="nv">cell</span><span class="o">=[</span><span class="s1">&#39;2.5arcsec&#39;</span>,<span class="s1">&#39;2.5arcsec&#39;</span><span class="o">]</span>, <span class="nv">imsize</span><span class="o">=[</span><span class="m">480</span>,480<span class="o">]</span>, <span class="nv">niter</span><span class="o">=</span><span class="m">0</span>, <span class="nv">stokes</span><span class="o">=</span><span class="s1">&#39;I&#39;</span>, <span class="nv">gridder</span><span class="o">=</span><span class="s1">&#39;mosaic&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Export the dirty image to a fits file</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> exportfits<span class="o">(</span><span class="nv">imagename</span><span class="o">=</span><span class="s1">&#39;3C391_Dirty.image&#39;</span>, <span class="nv">fitsimage</span><span class="o">=</span><span class="s1">&#39;3C391_Dirty.fits&#39;</span>, <span class="nv">dropstokes</span><span class="o">=</span>True, <span class="nv">dropdeg</span><span class="o">=</span>True<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Find the rms across the whole image. N.B. The following command does not exclude the source region, instead it uses the entire image to calculate the RMS in Jy.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> <span class="nv">stats</span> <span class="o">=</span> imstat<span class="o">(</span><span class="nv">imagename</span><span class="o">=</span><span class="s1">&#39;3C391_Dirty.image&#39;</span><span class="o">)</span>
+
+<span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> stats<span class="o">[</span><span class="s1">&#39;rms&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Create the clean image.</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> tclean<span class="o">(</span><span class="nv">vis</span><span class="o">=</span><span class="s1">&#39;3c391_ctm_mosaic_10s_spw0-smoothed.ms&#39;</span>, <span class="nv">field</span><span class="o">=</span><span class="s1">&#39;2~8&#39;</span>,imagename<span class="o">=</span><span class="s1">&#39;3C391_Clean&#39;</span>, <span class="nv">cell</span><span class="o">=[</span><span class="s1">&#39;2.5arcsec&#39;</span>,<span class="s1">&#39;2.5arcsec&#39;</span><span class="o">]</span>, <span class="nv">imsize</span><span class="o">=[</span><span class="m">480</span>,480<span class="o">]</span>, <span class="nv">niter</span><span class="o">=</span><span class="m">20000</span>, <span class="nv">threshold</span><span class="o">=</span><span class="s1">&#39;1.0mJy&#39;</span>, <span class="nv">stokes</span><span class="o">=</span><span class="s1">&#39;I&#39;</span>, <span class="nv">gridder</span><span class="o">=</span><span class="s1">&#39;mosaic&#39;</span>, <span class="nv">deconvolver</span><span class="o">=</span><span class="s1">&#39;multiscale&#39;</span>, <span class="nv">scales</span><span class="o">=[</span><span class="m">0</span>, <span class="m">5</span>, <span class="m">15</span>, <span class="m">45</span><span class="o">]</span>, <span class="nv">smallscalebias</span><span class="o">=</span><span class="m">0</span>.9, <span class="nv">weighting</span><span class="o">=</span><span class="s1">&#39;briggs&#39;</span>, <span class="nv">robust</span><span class="o">=</span><span class="m">0</span>.5, <span class="nv">pbcor</span><span class="o">=</span>True<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Finally, export the image into a fits-format file</p>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(CASA)</span> <span class="gp">$</span> exportfits<span class="o">(</span><span class="nv">imagename</span><span class="o">=</span><span class="s1">&#39;3C391_Clean.image&#39;</span>, <span class="nv">fitsimage</span><span class="o">=</span><span class="s1">&#39;3C391_Clean.fits&#39;</span>, <span class="nv">dropstokes</span><span class="o">=</span>True, <span class="nv">dropdeg</span><span class="o">=</span>True<span class="o">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cambridgehpc.html" class="btn btn-neutral float-left" title="Cambridge CSD3 cheat sheet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 IRIS Radio Astronomy team @ UH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
