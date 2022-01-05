@@ -128,13 +128,13 @@ Calibration
 
 		(CASA) $ gaincal(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.K1', gaintype='K', solint='inf', field='0', refant='ea21', spw='0:5~58', combine='scan', minsnr=5.0, gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G1'])
 
-		(CASA) $ bandpass(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.B1', solint='inf', field='0', refant='ea21', spw='', combine='scan', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.ms.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G1','3c391_ctm_mosaic_10s_spw0-smoothed.K1'])
+		(CASA) $ bandpass(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.B1', solint='inf', field='0', refant='ea21', spw='', combine='scan', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G1','3c391_ctm_mosaic_10s_spw0-smoothed.K1'])
 
 #. Calculate the gain calibration table for the primary and secondary calibrators simultaneously
 
 	.. code-block:: console
 
-		(CASA) $ gaincal(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.G2', gaintype='G', calmode='ap', solint='inf', field='0,1', refant='ea21', spw='0:5~58', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.ms.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.ms.rq','3c391_ctm_mosaic_10s_spw0-smoothed.K1','3c391_ctm_mosaic_10s_spw0-smoothed.B1'])
+		(CASA) $ gaincal(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.G2', gaintype='G', calmode='ap', solint='inf', field='0,1', refant='ea21', spw='0:5~58', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.K1','3c391_ctm_mosaic_10s_spw0-smoothed.B1'])
 
 #. Scale the amplitude gains, N.B. Setting *incremental=False* makes a new output table that replaces the gain calibration table.
 
