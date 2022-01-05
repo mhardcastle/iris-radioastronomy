@@ -69,7 +69,7 @@ All the following commands are run from the CASA command prompt inside the singu
 
 	.. code-block:: console
 
-		(CASA) $ flagdata((vis='3c391_ctm_mosaic_10s_spw0.ms', flagbackup=True, mode='manual', scan='1')
+		(CASA) $ flagdata(vis='3c391_ctm_mosaic_10s_spw0.ms', flagbackup=True, mode='manual', scan='1')
 
 #. At the start of each scan it typically takes a few moments for the VLA antennas to settle into position. As a result it is common practice to remove the first few seconds of data from the start of each scan. In the example below we flag (or `quack`) the first 10 seconds of each scan.
 
@@ -101,13 +101,13 @@ All the following commands are run from the CASA command prompt inside the singu
 
 		(CASA) $ bandpass(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', caltable='3c391_ctm_mosaic_10s_spw0-smoothed.B0', solint='inf', field='0', refant='ea21', spw='', combine='scan', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G0','3c391_ctm_mosaic_10s_spw0-smoothed.K0'])
 
-		(CASA) $ applycal(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', calwt=False, gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G0','3c391_ctm_mosaic_10s_spw0-smoothed.K0','3c391_ctm_mosaic_10s_spw0-smoothed.B0']
+		(CASA) $ applycal(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', calwt=False, gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G0','3c391_ctm_mosaic_10s_spw0-smoothed.K0','3c391_ctm_mosaic_10s_spw0-smoothed.B0'])
 
 #. Having done the preliminary bandpass we can now use *rflag* to do some more flagging. In this example we flag RFI that is more than 5 standard deviations away from both the time and frequency-calculated median values.
 
 	.. code-block:: console
 
-		(CASA) $ flagdata(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', mode='rflag' datacolumn='corrected', timedevscale=5.0, freqdevscale=5.0, flagbackup=True)
+		(CASA) $ flagdata(vis='3c391_ctm_mosaic_10s_spw0-smoothed.ms', mode='rflag', datacolumn='corrected', timedevscale=5.0, freqdevscale=5.0, flagbackup=True)
 
 Calibration
 -----------
