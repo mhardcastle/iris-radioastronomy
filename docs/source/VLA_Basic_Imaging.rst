@@ -1,12 +1,12 @@
 VLA Basic Imaging
 =================
 
-This tutorial uses the measurement set from the CASA tutorial `VLA Continuum Tutorial 3C 391<https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0>`_ to generate an image of the supernova remnant 3C 391. The data in the measurement set was taken using a bandwidth of 128 MHz centred at 4.6 GHz with the VLA in D-configuration. The data set includes polarisation data that is not used in this tutorial.
+This tutorial uses the measurement set from the CASA tutorial `VLA Continuum Tutorial 3C 391 <https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0>`_ to generate an image of the supernova remnant 3C 391. The data in the measurement set was taken using a bandwidth of 128 MHz centred at 4.6 GHz with the VLA in D-configuration. The data set includes polarisation data that is not used in this tutorial.
 
 Getting Started
 ---------------
 
-#. The data required for this workflow can be downloaded from the CASA tutorial web page `VLA Continuum Tutorial 3C 391<https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0>`_. N.B. This data set has been modified to include only the data necessary to run this tutorial, if desired the full observation can be downloaded fro the `VLA Archive<https://archive.nrao.edu/archive/advquery.jsp>`_ using the archive file id ``TDEM0001_sb1218006_1.55310.33439732639``. If downloading from the VLA archive it is normally easiest to download it as a tar file.
+#. The data required for this workflow can be downloaded from the CASA tutorial web page `VLA Continuum Tutorial 3C 391 <https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0>`_. N.B. This data set has been modified to include only the data necessary to run this tutorial, if desired the full observation can be downloaded fro the `VLA Archive <https://archive.nrao.edu/archive/advquery.jsp>`_ using the archive file id ``TDEM0001_sb1218006_1.55310.33439732639``. If downloading from the VLA archive it is normally easiest to download it as a tar file.
 
    After downloading the data untar it:
 
