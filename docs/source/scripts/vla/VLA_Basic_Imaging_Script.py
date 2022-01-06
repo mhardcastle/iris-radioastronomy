@@ -39,7 +39,7 @@ gaincal(vis=smoothed_vis, caltable='3c391_ctm_mosaic_10s_spw0-smoothed.K1', gain
 
 bandpass(vis=smoothed_vis, caltable='3c391_ctm_mosaic_10s_spw0-smoothed.B1', solint='inf', field=primary_calibrator, refant=refant, spw='', combine='scan', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.G1','3c391_ctm_mosaic_10s_spw0-smoothed.K1'])
 
-gaincal(vis=smoothed_vis, caltable='3c391_ctm_mosaic_10s_spw0-smoothed.G2', gaintype='G', calmode='ap', solint='inf', field='0,1', refant=refant, spw='0:5~58', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.ms.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.ms.rq','3c391_ctm_mosaic_10s_spw0-smoothed.K1','3c391_ctm_mosaic_10s_spw0-smoothed.B1'])
+gaincal(vis=smoothed_vis, caltable='3c391_ctm_mosaic_10s_spw0-smoothed.G2', gaintype='G', calmode='ap', solint='inf', field='0,1', refant=refant, spw='0:5~58', gaintable=['3c391_ctm_mosaic_10s_spw0-smoothed.antpos','3c391_ctm_mosaic_10s_spw0-smoothed.K1','3c391_ctm_mosaic_10s_spw0-smoothed.B1'])
 
 fluxscale(vis=smoothed_vis, caltable='3c391_ctm_mosaic_10s_spw0-smoothed.G2', fluxtable='3c391_ctm_mosaic_10s_spw0-smoothed.fluxscale2', reference=primary_calibrator, transfer=[phase_calibrator], incremental=False)
 
@@ -59,6 +59,6 @@ stats = imstat(imagename='3C391_Dirty.image')
 
 rms = stats['rms'][0]
 
-tclean(vis=smoothed_vis, field=target_fields, imagename='3C391_Clean', cell=['2.5arcsec','2.5arcsec'], imsize=[480,480], niter=20000, threshold=str(rms*6)+'Jy', stokes='I', gridder='mosaic', deconvolver='multiscale', scales=[0, 5, 15, 45], smallscalebias=0.9, weighting='briggs', robust=0.5, pbcor=True)
+tclean(vis=smoothed_vis, field=target_fields, imagename='3C391_Clean', cell=['2.5arcsec','2.5arcsec'], imsize=[480,480], niter=20000, threshold=str(rms*5)+'Jy', stokes='I', gridder='mosaic', deconvolver='multiscale', scales=[0, 5, 15, 45], smallscalebias=0.9, weighting='briggs', robust=0.5, pbcor=True)
 
 exportfits(imagename='3C391_Clean.image', fitsimage='3C391_Clean.fits', dropstokes=True, dropdeg=True)
