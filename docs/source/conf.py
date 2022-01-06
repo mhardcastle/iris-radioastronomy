@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'IRIS Radio Astronomy'
-copyright = '2021 IRIS Radio Astronomy team @ UH'
+copyright = '2022 IRIS Radio Astronomy team @ UH'
 author = 'Hardcastle, Horton, Smart, Webster'
 
 release = '0.1'
