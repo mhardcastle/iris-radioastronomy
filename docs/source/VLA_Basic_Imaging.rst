@@ -3,6 +3,8 @@ VLA Basic Imaging
 
 This tutorial uses the measurement set from the CASA tutorial `VLA Continuum Tutorial 3C 391 <https://casaguides.nrao.edu/index.php?title=VLA_Continuum_Tutorial_3C391-CASA6.2.0>`_ to generate an image of the supernova remnant 3C 391. The data in the measurement set was taken using a bandwidth of 128 MHz centred at 4.6 GHz with the VLA in D-configuration. The data set includes polarisation data that is not used in this tutorial.
 
+.. _VLA-basic-imaging-getting-started:
+
 Getting Started
 ---------------
 
@@ -198,6 +200,17 @@ Imaging
 	.. code-block:: console
 
 		(CASA) $ exportfits(imagename='3C391_Clean.image', fitsimage='3C391_Clean.fits', dropstokes=True, dropdeg=True)
+
+Running as a Script
+-------------------
+
+The script used in this example is called VLA_Basic_Imaging_Script.py and can be downloaded :download:`here <scripts/vla/VLA_Basic_Imaging_Script.py>`.
+
+After downloading the measurement set and starting the singularity instance as described in :ref:`VLA-basic-imaging-getting-started`, the above commands can be run as a single script using the following command:
+
+	.. code-block:: console
+
+		(CASA) $ execfile('VLA_Basic_Imaging_Script.py')
 
 
 
