@@ -246,7 +246,7 @@ Running the script as a Slurm job on Cambridge CSD3
 	* The command ``#SBATCH -p icelake`` ensures we are using the icelake cluster
 	* The command ``#SBATCH --nodes=1`` states we only require a single node
 	* The command ``#SBATCH --ntasks=1`` states we are running a single task/process. By default slurm allocates one task per cpu and so we are effectively asking for a single cpu. On icelake each CPU has a single core and by default each icelake CPU is allocated 3380 MiB of memory.
-	* The command ``#SBATCH --time=00:45:00`` is requesting 30 (wall-clock) minutes of processing time.
+	* The command ``#SBATCH --time=00:45:00`` is requesting 45 (wall-clock) minutes of processing time.
 	* The command ``#SBATCH --mail-type=ALL`` means email messages will be sent at the start and end of the job or (if applicable) when an error occurs. To disable this set the option to ``NONE``.
 	* The command ``#SBATCH --no-requeue`` means that if this job is interrupted by a node failure/system downtime it will `not` be automatically rescheduled.
 	* The command ``. /etc/profile.d/modules.sh`` enables the module command
