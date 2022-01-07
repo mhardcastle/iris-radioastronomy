@@ -201,6 +201,8 @@ Imaging
 
 		(CASA) $ exportfits(imagename='3C391_Clean.image', fitsimage='3C391_Clean.fits', dropstokes=True, dropdeg=True)
 
+.. _VLA-basic-imaging-running-as-a-script:
+
 Running as a Script
 -------------------
 
@@ -211,6 +213,55 @@ After downloading the measurement set and starting the singularity instance as d
 	.. code-block:: console
 
 		(CASA) $ execfile('VLA_Basic_Imaging_Script.py')
+
+Running the script as a Slurm job on Cambridge CSD3
+---------------------------------------------------
+
+#. Start by logging on to the `Cambridge CSD3 system <https://docs.hpc.cam.ac.uk/hpc/index.html>`_ as described in :ref:`cambridgehpc-login`. If necessary download the casa singularity as described in :ref:`VLA-basic-imaging-getting-started`.
+
+#. Create the following slurm script. This script used in this exmaple is named :download:`VLA_Basic_Imaging.slurm <scripts/vla/VLA_Basic_Imaging.slurm>`, though it can be given any name. Note, the slurm script calls the same :download:`VLA_Basic_Imaging_Script.py <scripts/vla/VLA_Basic_Imaging_Script.py>` script used in :ref:`VLA-basic-imaging-running-as-a-script`. If necessary, download and install this script into the working directory.
+
+	.. code-block:: console
+
+		#!/bin/bash
+		#SBATCH -J VLA-Basic-Imaging
+		#SBATCH -A DIRAC-TP001-CPU
+		#SBATCH -p icelake
+		#SBATCH --nodes=1
+		#SBATCH --ntasks=1
+		#SBATCH --time=00:45:00
+		#SBATCH --mail-type=ALL
+		#SBATCH --no-requeue
+
+		#! Enter the script to run here
+		. /etc/profile.d/modules.sh
+		module load rhe18/default-icl
+		module load singularity
+		singularity exec casa_latest.sif casa -c VLA_Basic_Imaging_Script.py
+
+#. Note the following points about the slurm script
+	* The command ``#SBATCH -J VLA-Basic-Imaging`` names the job VLA-Basic-Imaging
+	* The command ``#SBATCH -A DIRAC-TP001-CPU`` is the name of the project under which time has been allocated
+	* The command ``#SBATCH -p icelake`` ensures we are using the icelake cluster
+	* The command ``#SBATCH --nodes=1`` states we only require a single node
+	* The command ``#SBATCH --ntasks=1`` states we are running a single task/process. By default slurm allocates one task per cpu and so we are effectively asking for a single cpu. On icelake each CPU has a single core and by default each icelake CPU is allocated 3380 MiB of memory.
+	* The command ``#SBATCH --time=00:45:00`` is requesting 30 (wall-clock) minutes of processing time.
+	* The command ``#SBATCH --mail-type=ALL`` means email messages will be sent at the start and end of the job or (if applicable) when an error occurs. To disable this set the option to ``NONE``.
+	* The command ``#SBATCH --no-requeue`` means that if this job is interrupted by a node failure/system downtime it will `not` be automatically rescheduled.
+	* The command ``. /etc/profile.d/modules.sh`` enables the module command
+	* The command ``module load rhe18/default-icl`` loads the basic environment needed by icelake
+	* The command ``module load singularity`` loads the singularity module
+	* The command ``singularity exec casa_latest.sif casa -c VLA_Basic_Imaging_Script.py`` executes the command ``casa -c VLA_Basic_Imaging_Script.py`` within the singularity environment. This is the command that runs the casa script.
+
+#. Run the slurm script by entering
+
+	.. code-block:: console
+
+		(host) $ sbatch VLA_Basic_Imaging.slurm
+
+
+
+
 
 
 
