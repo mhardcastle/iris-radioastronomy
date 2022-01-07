@@ -1,0 +1,3 @@
+[submodule "docs/source/dirac"]
+	path = docs/source/dirac
+	url = https://github.com/cimpan91/Docs.git
