@@ -239,7 +239,8 @@ Running the script as a Slurm job on Cambridge CSD3
 		module load singularity
 		singularity exec casa_latest.sif casa -c VLA_Basic_Imaging_Script.py
 
-#. Note the following points about the slurm script
+#. Note the following points about the slurm script:
+
 	* The command ``#SBATCH -J VLA-Basic-Imaging`` names the job VLA-Basic-Imaging
 	* The command ``#SBATCH -A DIRAC-TP001-CPU`` is the name of the project under which time has been allocated
 	* The command ``#SBATCH -p icelake`` ensures we are using the icelake cluster
