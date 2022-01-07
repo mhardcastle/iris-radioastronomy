@@ -6,6 +6,8 @@ The `Cambridge CSD3 system
 extensively on its own web pages. These are internal notes for quick
 start for our project.
 
+.. _cambridgehpc-login:
+
 Login
 -----
 
