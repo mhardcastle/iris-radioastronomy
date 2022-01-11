@@ -16,4 +16,5 @@ Contents
    settingup
    singularity
    cambridgehpc
+   slurm
    VLA_Basic_Imaging
