@@ -162,7 +162,7 @@ To build this we run the command:
 		[mjh@lofar-server mjh]$ singularity build --fakeroot casa.sif casa.def
 
 The ``--fakeroot`` option here allows us to build the image as a normal user. If running on a machine where you have root access, you should use ``sudo`` instead.
- If you receive a permissions error for ''--fakeroot'', your system administrator will have to 'set it up for you. <https://sylabs.io/guides/3.5/user-guide/fakeroot.html>'
+If you receive a permissions error for ''--fakeroot'', your system administrator will have to `set it up for you <https://sylabs.io/guides/3.5/user-guide/fakeroot.html>`_.
 
 Running this command you will see the generation of the image,
 including the download from Docker and the effects of running the
