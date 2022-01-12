@@ -153,6 +153,7 @@ To build a new singularity image we use a definition file. In this case we will 
 The ``%post`` part of the code here installs any security updates and
 a few dependencies, then downloads and unpacks CASA. The
 ``%environment`` part makes sure that the ``casa`` command is on the system PATH and we define a runscript which means that running the singularity image will drop us into a CASA environment.
+All commands within the definition file are expected to be in the chosen operating system's language.
 
 To build this we run the command:
 
@@ -160,7 +161,8 @@ To build this we run the command:
 
 		[mjh@lofar-server mjh]$ singularity build --fakeroot casa.sif casa.def
 
-The ``--fakeroot`` option here allows us to build the image as a normal user. If running on a machine where you have root access, you should use ``sudo`` instead. 
+The ``--fakeroot`` option here allows us to build the image as a normal user. If running on a machine where you have root access, you should use ``sudo`` instead.
+ If you receive a permissions error for ''--fakeroot'', your system administrator will have to 'set it up for you. <https://sylabs.io/guides/3.5/user-guide/fakeroot.html>'
 
 Running this command you will see the generation of the image,
 including the download from Docker and the effects of running the
