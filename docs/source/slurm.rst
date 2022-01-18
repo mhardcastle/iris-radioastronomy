@@ -97,7 +97,7 @@ To cancel a job use the following command replacing `jobid` with the identifier 
 
 	.. code-block:: console
 
-		(host) $ scancel -j jobid
+		(host) $ scancel jobid
 
 
 
