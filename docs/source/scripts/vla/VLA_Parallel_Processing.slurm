@@ -7,7 +7,7 @@
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J VLA-Processing-Multiple-Images
+#SBATCH -J VLA-Parallel-Processing
 #! Which project should be charged:
 #SBATCH -A DIRAC-TP001-CPU
 #SBATCH -p icelake
@@ -48,6 +48,5 @@ srun="srun --exclusive -N1 -n1"
 ## --joblog and --resume combine to create a task log that can be used to monitor progress
 parallel="parallel --delay 0.2 -j $SLURM_NTASKS --joblog runtask.log --resume"
 
-## Using A ::: B produces all possible combinations. So if A=(1 2) and B=(L M) this will make four calls for 1L, 1M 2L and 2M  
-
+## Run the command
 $parallel "$srun singularity exec casa_latest.sif casa -c VLA_Process_3C465_Images.py {1}" ::: "${INPUTS[@]}"
