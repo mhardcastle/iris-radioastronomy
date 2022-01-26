@@ -57,23 +57,23 @@ applycal(vis=smoothed_vis, field=target_field, gaintable=[caltable_antpos,smooth
 
 statwt(vis=smoothed_vis, datacolumn='data')
 
+#Set cleaning scales to 0, 2*beam, 5*beam (in pixels)
 if config=='A':
 	cell=['0.25arcsec','0.25arcsec']
+	imsize=[11250,11250]
+	scales=[0,10,26]
 elif config=='B':
 	cell=['1arcsec','1arcsec']
+	imsize=[3072,3072]
+	scales=[0,9,22]
 elif config=='C':
 	cell=['3arcsec','3arcsec']
+	imsize=[1024,1024]
+	scales=[0,9,23]
 elif config=='D':
 	cell=['10arcsec','10arcsec']
-
-if config=='A':
-	imsize=[11250,11250]
-elif config=='B':
-	imsize=[3072,3072]
-elif config=='C':
-	imsize=[1024,1024]
-elif config=='D':
 	imsize=[320,320]
+	scales=[0,9,23]
 
 tclean(vis=smoothed_vis, field=target_field, imagename=smoothed_vis[:-3]+'-Dirty', cell=cell, imsize=imsize, niter=0, stokes='I') 
 
@@ -82,16 +82,6 @@ exportfits(imagename=smoothed_vis[:-3]+'-Dirty.image', fitsimage=smoothed_vis[:-
 stats = imstat(imagename=smoothed_vis[:-3]+'-Dirty.image')
 
 rms = stats['rms'][0]
-
-#Set cleaning scales to 0, 2*beam, 5*beam (in pixels)
-if config=='A':
-	scales=[0,10,26]
-elif config=='B':
-	scales=[0,9,22]
-elif config=='C':
-	scales=[0,9,23]
-elif config=='D':
-	scales=[0,9,23]
 
 tclean(vis=smoothed_vis, field=target_field, imagename=smoothed_vis[:-3]+'-Clean', cell=cell, imsize=imsize, niter=20000, threshold=str(rms*5)+'Jy', stokes='I', deconvolver='multiscale', scales=scales, smallscalebias=0.9, weighting='briggs', robust=0.5, pbcor=True)
 
