@@ -1,6 +1,6 @@
 from sys import argv
 
-params = argv[1]
+params = argv[1].split()
 vis = params[0]
 config = params[1]
 band = params[2]
