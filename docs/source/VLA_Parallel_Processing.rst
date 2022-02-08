@@ -181,7 +181,7 @@ Running the scripts
 
 	.. code-block:: console
 
-		(host) $ sbatch VLA_Processing_Multiple_Images.slurm
+		(host) $ sbatch VLA_Parallel_Processing.slurm
 
 #. Check the casa `.log` and `runtask.log` files for any errors. An exit value of `1` in the `runtask.log` file indicates a terminal error occurred and the process was terminated prematurely.
 
