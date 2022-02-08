@@ -27,7 +27,7 @@ password prompt:
 Work area
 ---------
 
-The project shared disk space is ``/rds-d7/project/rds-63QXlf5HuFo``.
+The project shared disk space is ``/rds/project/rds-bRdYdViqoGA/``.
 Make yourself a working directory there.
 
 Jobs
