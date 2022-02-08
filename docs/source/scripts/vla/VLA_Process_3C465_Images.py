@@ -31,7 +31,7 @@ gaincal(vis=smoothed_vis, caltable=smoothed_vis[:-3]+'.K0', gaintype='K', solint
 
 bandpass(vis=smoothed_vis, caltable=smoothed_vis[:-3]+'.B0', solint='inf', field=primary_calibrator, refant=refant, spw='', combine='scan', gaintable=[caltable_antpos,smoothed_vis[:-3]+'.G0',smoothed_vis[:-3]+'.K0'])
 
-applycal(vis=smoothed_vis, calwt=False, gaintable=[caltable_antpos,smoothed_vis[:-3]+'.G0',soothed_vis[:-3]+'.K0',smoothed_vis[:-3]+'.B0'])
+applycal(vis=smoothed_vis, calwt=False, gaintable=[caltable_antpos,smoothed_vis[:-3]+'.G0',smoothed_vis[:-3]+'.K0',smoothed_vis[:-3]+'.B0'])
 
 flagdata(vis=smoothed_vis, mode='rflag', datacolumn='corrected', timedevscale=5.0, freqdevscale=5.0, flagbackup=True)
 
