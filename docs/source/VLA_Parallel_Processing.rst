@@ -124,7 +124,7 @@ Create the CASA script
 
 		from sys import argv
 
-		params = argv[1]
+		params = argv[1].split()
 		vis = params[0]
 		config = params[1]
 		band = params[2]
@@ -166,7 +166,7 @@ Create the CASA script
 
 Note the following points about the casa script:
 
-	* The ``params = argv[1]`` command imports the parameters that were added by the call to parallel in the slurm script. The next few lines parse the imported string, populating the variables used throughout the script. In this example the name of the measurement set as well as the VLA configuration and band of the measurement set are all supplied. If desired this could be expanded to include any additional information desired.
+	* The ``params = argv[1].split()`` command imports the parameter string that was supplied by the call to parallel in the slurm script and splits it into its components. The next few lines populate the variables used throughout the script. In this example the name of the measurement set as well as the VLA configuration and band of the measurement set are all supplied. This could be expanded to include any additional information desired.
 	* The ``listobs`` and ``tclean`` commands give a simple example of how the variables can be used within the script
 	* The nested ``if`` block is an example of how to use the data to set up the variables used during imaging. This script only uses the ``config`` variable but this could easily be expanded to include additional variables such as ``band``.
 
