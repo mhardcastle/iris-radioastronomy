@@ -40,7 +40,6 @@ ln -s ./squashfs-root/AppRun ./casaviewer-x86_64.AppImage
 %environment
 export LC_ALL=C
 export PATH=/usr/local/casa-6.4.3-27/bin:$PATH
-export DISPLAY=localhost:1.0
 
 %runscript
 xvfb-run casa --nologger --log2term --nogui
