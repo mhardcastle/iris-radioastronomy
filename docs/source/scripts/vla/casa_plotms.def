@@ -1,0 +1,49 @@
+Bootstrap: docker
+From: scientificlinux/sl
+
+%post
+yum -y update
+yum -y upgrade
+yum -y install xorg-x11-server-Xvfb
+yum -y install wget perl less
+
+#Install casa dependencies
+yum -y install fontconfig freetype freetype-devel fontconfig-devel libstdc++
+
+#Install casa
+cd /usr/local
+wget https://casa.nrao.edu/download/distro/casa/release/rhel/casa-6.4.3-27-py3.8.tar.xz
+tar xf casa-6.4.3-27-py3.8.tar.xz
+rm casa-6.4.3-27-py3.8.tar.xz
+
+#The above casa installation contains three AppImage files
+#AppImages only work within singularity containers if they are unpacked
+#The following replaces the three packed AppImages with unpacked versions
+cd /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaplotms/__bin__/
+./casaplotms-x86_64.AppImage --appimage-extract
+chmod -R 755 /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaplotms/__bin__/squashfs-root/
+rm ./casaplotms-x86_64.AppImage
+ln -s ./squashfs-root/AppRun ./casaplotms-x86_64.AppImage
+
+cd /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaplotserver/__bin__/
+./casaplotserver-x86_64.AppImage --appimage-extract
+chmod -R 755 /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaplotserver/__bin__/squashfs-root/
+rm ./casaplotserver-x86_64.AppImage
+ln -s ./squashfs-root/AppRun ./casaplotserver-x86_64.AppImage
+
+cd /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaviewer/__bin__/
+./casaviewer-x86_64.AppImage --appimage-extract
+chmod -R 755 /usr/local/casa-6.4.3-27/lib/py/lib/python3.8/site-packages/casaviewer/__bin__/squashfs-root
+rm ./casaviewer-x86_64.AppImage
+ln -s ./squashfs-root/AppRun ./casaviewer-x86_64.AppImage
+
+%environment
+export LC_ALL=C
+export PATH=/usr/local/casa-6.4.3-27/bin:$PATH
+export DISPLAY=localhost:1.0
+
+%runscript
+xvfb-run casa --nologger --log2term --nogui
+
+%labels
+Author IRIS-Radioastronomy
