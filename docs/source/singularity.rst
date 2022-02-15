@@ -121,7 +121,8 @@ Often it is useful to bind a file system or a part of the file system outside th
 
 Finally you may want to prevent the image from accessing your home directory. To give it minimal access to the file system use the ``-c`` or ``--contain`` option. This will cause an empty home directory to be presented inside the singularity. Combined with ``-B`` you can use this to give access only to selected parts of the file system.
 
-		
+.. _Singularity-building-an-image:
+
 Building an image
 -----------------
 
