@@ -127,7 +127,7 @@ Building an image
 
 To build a new singularity image we use a definition file. In this case we will base our image on Scientific Linux 7 (a Red Hat clone) because we want to use CASA, which expects a Red Hat environment:
 
-.. code:: singularity
+.. code-block:: console
 
 	  BootStrap: docker
 	  From: scientificlinux/sl
