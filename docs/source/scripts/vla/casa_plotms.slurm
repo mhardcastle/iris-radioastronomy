@@ -7,7 +7,7 @@
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J VLA-PlotMS
+#SBATCH -J Casa-Plotms
 #! Which project should be charged:
 #SBATCH -A DIRAC-TP001-CPU
 #SBATCH -p icelake
@@ -18,7 +18,7 @@
 #! 3380 MiB of memory per CPU.
 #SBATCH --ntasks=1
 #! How much wallclock time will be required?
-#SBATCH --time=00:05:00
+#SBATCH --time=00:30:00
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
 #! Uncomment this to prevent the job from being requeued (e.g. if
