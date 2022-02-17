@@ -18,7 +18,7 @@
 #! 3380 MiB of memory per CPU.
 #SBATCH --ntasks=1
 #! How much wallclock time will be required?
-#SBATCH --time=00:30:00
+#SBATCH --time=00:45:00
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
 #! Uncomment this to prevent the job from being requeued (e.g. if
@@ -34,4 +34,4 @@
 . /etc/profile.d/modules.sh                # Leave this line (enables the module command)
 module load rhel8/default-icl              # REQUIRED - loads the basic environment
 module load singularity
-singularity exec casa_plotms.sif xvfb-run casa -c 3C391_Script.py
+singularity exec casa_plotms.sif xvfb-run casa -c 3C391_script.py
