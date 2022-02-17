@@ -1,3 +1,5 @@
+.. _VLA-basic-imaging:
+
 VLA Basic Imaging
 =================
 
