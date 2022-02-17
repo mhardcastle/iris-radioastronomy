@@ -4,14 +4,14 @@ Using Casa's Plotms
 ===================
 
 ``plotms`` is a GUI tool supplied with casa for plotting visibility and calibration data. The HPC services offered by, for example, the `Cambridge CSD3 system
-<https://docs.hpc.cam.ac.uk/hpc/index.html>`_, are intended to be used with batch submission scripts where GUI tools cannot be used. Fortunately ``plotms`` can be called from the command line, saving plots without using the GUI functionality. This tutorial describes how to use ``plotms`` as part of a batch submission script without using its GUI functionality. This allows users to exploit the full functionality of ``plotms`` as part of their scripts.
+<https://docs.hpc.cam.ac.uk/hpc/index.html>`_, are intended to be used with batch submission scripts where GUI tools cannot be used. Fortunately, ``plotms`` can be called from the command line and used to save plots without using the GUI functionality. This tutorial describes how to use ``plotms`` as part of a batch submission script without using its GUI functionality. This allows users to exploit the full functionality of ``plotms``.
 
 .. _VLA-using-casa-plotms-buiding-the-singularity-container:
 
 Building the Singularity Container
 ----------------------------------
 
-#. The basic casa singularity described in :ref:`Singularity-building-an-image` must be modified in order to allow access to ``plotms`` from within a submission script. The following script, named :download:`casa_plotms.def <scripts/vla/casa_plotms.def>`, can be used to create a singularity container capable of running ``plotms`` as part of a batch submission script:
+#. The basic casa singularity described in :ref:`use-of-singularity` must be modified in order to allow access to ``plotms`` from within a submission script. The following script, named :download:`casa_plotms.def <scripts/vla/casa_plotms.def>`, can be used to create a singularity container capable of running ``plotms`` as part of a batch submission script:
 
 	.. code-block:: bash
 
@@ -102,7 +102,7 @@ Create the slurm script
 		module load singularity
 		singularity exec casa_plotms.sif xvfb-run casa -c 3C391_script.py
 
-This script is nearly identical to the one described in :ref:`VLA-basic-imaging`. The important difference is in the last line which executes a command within the singularity container ``casa_plotms.sif``. The execute command does not trigger the run script within the singularity and so the command ``xvfb-run casa ...`` is needed to use Xvfb to launch casa which in turn calls the script named 3C391_script.py. 
+This script is nearly identical to the one described in :ref:`VLA-basic-imaging`. The important difference is in the last line which executes a command within the singularity container ``casa_plotms.sif``. The execute command does not trigger the run script within the singularity and so the command ``xvfb-run casa ...`` is needed to use Xvfb to launch casa which in turn calls the casa script named 3C391_script.py. 
 
 .. _VLA-using-casa-plotms-create-the-casa-script:
 
