@@ -19,3 +19,4 @@ Contents
    slurm
    VLA_Basic_Imaging
    VLA_Parallel_Processing
+   using_plotms
