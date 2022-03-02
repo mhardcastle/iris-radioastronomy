@@ -216,6 +216,8 @@ After downloading the measurement set and starting the singularity instance as d
 
 		(CASA) $ execfile('VLA_Basic_Imaging_Script.py')
 
+.. _VLA-basic-imaging-create-the-slurm-script:
+
 Running the script as a Slurm job on Cambridge CSD3
 ---------------------------------------------------
 
