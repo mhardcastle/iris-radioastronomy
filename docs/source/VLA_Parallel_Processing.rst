@@ -57,6 +57,8 @@ Getting Started
 
 		(host) $ singularity pull library://mhardcastle/default/casa
 
+.. _Parallel-Processing-create-the-slurm-script:
+
 Create the slurm script
 -----------------------
 
