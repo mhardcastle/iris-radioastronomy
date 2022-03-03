@@ -122,7 +122,7 @@ Create the CASA script
 
 #. The casa script used in this tutorial is called :download:`VLA_Process_3C465_Images.py <scripts/vla/VLA_Process_3C465_Images.py>` and is based on the code used in the :ref:`VLA-basic-imaging-getting-started` tutorial. The download file contains the full script with a summarised version given below:
 
-	.. code-block:: console
+	.. code-block:: python
 
 		from sys import argv
 
