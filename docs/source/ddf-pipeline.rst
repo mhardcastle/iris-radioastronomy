@@ -92,6 +92,12 @@ what field will be processed. Call with
 
 		      (host) $ sbatch --export FIELD=P123+45 ddf-pipeline.sh
 
+Note that ideally ddf-pipeline requires a week's walltime, so you
+should be prepared for several restarts if the local system does not
+allow this. You can use the ``--dependency=afterany:JOBID`` option to
+``sbatch`` to stack up a set of dependent jobs that will give the
+required walltime.
+		      
 
 Self-calibration
 ----------------
