@@ -20,3 +20,6 @@ Contents
    VLA_Basic_Imaging
    VLA_Parallel_Processing
    using_plotms
+   CASA_Toolkit
+   ddf-pipeline
+   
