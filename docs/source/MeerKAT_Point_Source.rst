@@ -46,21 +46,24 @@ The code below is an example of how to write a python script which will submit a
 
 		for filename in f:
 
-        folder=filepath+filename+'/'
-        sbatch_command = """sbatch --export=folder='{0}' /rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Singularity/run_bane.sh""".format(folder)
-        print(sbatch_command)
-        print(folder)
-        print('Submitting job')
-        exit_status = subprocess.call(sbatch_command, shell=True)
+        	folder=filepath+filename+'/'
+        	sbatch_command = """sbatch --export=folder='{0}' /rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Singularity/run_bane.sh""".format(folder)
+        	print(sbatch_command)
+        	print(folder)
+        	print('Submitting job')
+        	exit_status = subprocess.call(sbatch_command, shell=True)
 
-        if exit_status is 1:
-                print('Job failed to submit')
+        	if exit_status is 1:
+                	print('Job failed to submit')
 
-		print('Done submitting jobs!')
+			print('Done submitting jobs!')
 	
 The above program imports both os and suprocess so that we can use console commands to submit multiple slurm. It takes a filepath to a folder containing all the meerkat cubes and sends each cube as an input to a Singularity container.
 	
+Creating Slurm Job Submission file
+-----------	
 	
+The bellow code will be an example of a slurm job submission file which will be 
 	
 	.. code-block:: console
 
