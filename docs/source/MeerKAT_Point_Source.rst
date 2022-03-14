@@ -86,17 +86,16 @@ The bellow code will be an example of a slurm job submission file which will be
 
 		#! Optionally modify the environment seen by the application                                                                                                                                             
 
-		#! (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):                                                                                                                \
-                                                                                                                                                                                                         
-		. /etc/profile.d/modules.sh                # Leave this line (enables the module command)                                                                                                                
-		module purge                               # Removes all modules still loaded                                                                                                                            
-		module load rhel7/default-peta4            # REQUIRED- loads the basic environment                                                                                                                       
+		#! (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):                                                                                                                \           
+		. /etc/profile.d/modules.sh                # Leave this line (enables the module command)  
+		module purge                               # Removes all modules still loaded 
+		module load rhel7/default-peta4            # REQUIRED- loads the basic environment 
 		module load singularity
 		pwd; hostname; date
 		FILENAME=${folder}
 		#! Full path to application executable:                                                                                                                                                                  
-
 		application="singularity run -B/rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT meerkat_test.sif"
+		
 		#! Run options for the application:                                                                                                                                                                      
 		options="python3 /usr/local/MeerKAT/python_programs/auto_bane_cluster.py --input_folder=${FILENAME}"
 
@@ -108,13 +107,22 @@ The bellow code will be an example of a slurm job submission file which will be
 
 This particular job requires a path to the data be provided. The previous folder variable that was in the python program is avalaible to the slurm script.
 
-To run singularity using slurm, we need to load the singularity module within the slurm script. We do this by including
-	.. code-block:: console
-		. /etc/profile.d/modules.sh
-		module load rhe18/default-icl
-		module load singularity
+To run singularity using slurm, we need to load the singularity module within the slurm script. In the above script, this is done with the following lines.
 
-After singularity is loaded in the slurm scruot, any number of processes in the singularity container can be run. On this example case
+	.. code-block:: console
+		. /etc/profile.d/modules.sh                # Leave this line (enables the module command)  
+		module purge                               # Removes all modules still loaded 
+		module load rhel7/default-peta4            # REQUIRED- loads the basic environment 
+		module load singularity
+		
+After singularity is loaded in the slurm script, any number of processes in the singularity container can be run. In this example, we are giving slurm the singularity command as an application. The singularity command loads in the desired container, and options then passes the commands to the container so that we can run the desired applications within the container. In this example, we are asking the container to run the program auto_bane_cluster.py in python3 with an input variable "input_folder". In this example, ${FILENAME} is a variable which was passed from the original python3 script outside the container and into this script so multiple jobs can be run on different files. 
+
+	.. code-block:: console
+		#! Full path to application executable:  
+		application="singularity run -B/rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT meerkat_test.sif
+		
+		#! Run options for the application:  
+		options="python3 /usr/local/MeerKAT/python_programs/auto_bane_cluster.py --input_folder=${FILENAME}"
 
 
 Running MeerKAT Data Processing
@@ -156,11 +164,12 @@ Process Background
 Process Photometric Catalog
 -----------
 Once the backgrounds have been processed, run the jobSubmitter_Phot.py program. This program takes
-Process Spectral Indices and clean up catalog
+
+Process Spectral Indices and Clean Up Catalog
 -----------
  
 
-Merge Catalog into one
+Merging Catalogs
 -----------
 After all the data has been processed and the catalog columns have been organized and cleaned, this program takes all of the different 
 
