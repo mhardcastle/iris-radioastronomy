@@ -110,16 +110,14 @@ This particular job requires a path to the data be provided. The previous folder
 To run singularity using slurm, we need to load the singularity module within the slurm script. In the above script, this is done with the following lines.
 
 	.. code-block:: console
-	
-		. /etc/profile.d/modules.sh               
-		module purge                               
-		module load rhel7/default-peta4           
+		. /etc/profile.d/modules.sh                # Leave this line (enables the module command)  
+		module purge                               # Removes all modules still loaded 
+		module load rhel7/default-peta4            # REQUIRED- loads the basic environment 
 		module load singularity
 		
 After singularity is loaded in the slurm script, any number of processes in the singularity container can be run. In this example, we are giving slurm the singularity command as an application. The singularity command loads in the desired container, and options then passes the commands to the container so that we can run the desired applications within the container. In this example, we are asking the container to run the program auto_bane_cluster.py in python3 with an input variable "input_folder". In this example, ${FILENAME} is a variable which was passed from the original python3 script outside the container and into this script so multiple jobs can be run on different files. 
 
 	.. code-block:: console
-	
 		#! Full path to application executable:  
 		application="singularity run -B/rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT meerkat_test.sif
 		
@@ -134,26 +132,26 @@ Processing the MeerKAT data from the cubes is split up into several different pr
 
 File Setup
 -----------
-To processes the MeerKAT data, you need a folder which contains the following files
-- Aegean_Test_Catalogue_Full
-- Mom0_comp_catalogs
-- Mosaic_Planes
-- Singularity
-- python_scripts
+- To processes the MeerKAT data, you need a folder which contains the following files
+	+ Aegean_Test_Catalogue_Full
+	+ Mom0_comp_catalogs
+	+ Mosaic_Planes
+	+ Singularity
+	+ python_scripts
 
-The first three folders are required as they contain all of the relevant MeerKAT data that has been processed. The Aegean_Test_Catalogue_Full contains the folders
-- Mom0_comp_catalogs  
-- Mom0_comp_ds9_regions  
-- Mom0_isle_catalogs  
-- Mom0_isle_ds9_regions
+- The first three folders are required as they contain all of the relevant MeerKAT data that has been processed. The Aegean_Test_Catalogue_Full contains the folders
+	+ Mom0_comp_catalogs  
+	+ Mom0_comp_ds9_regions  
+	+ Mom0_isle_catalogs  
+	+ Mom0_isle_ds9_regions
 
-and can be found by accessing BLAH
+and can be found by accessing PATH_HERE
 
-The Mom0_comp_catalogs folder contains all of the moment zero maps of the cubes. These are used to process the average background used.
-- Mom0_comp_catalogs  
-- Mom0_comp_ds9_regions  
-- Mom0_isle_catalogs  
-- Mom0_isle_ds9_regions
+- The Mom0_comp_catalogs folder contains all of the moment zero maps of the cubes. These are used to process the average background used.
+	+ Mom0_comp_catalogs  
+	+ Mom0_comp_ds9_regions  
+	+ Mom0_isle_catalogs  
+	+ Mom0_isle_ds9_regions
 
 Process Background
 -----------
@@ -173,16 +171,15 @@ Process Spectral Indices and Clean Up Catalog
 
 Merging Catalogs
 -----------
-After all the data has been processed and the catalog columns have been organized and cleaned, this program takes all of the different 
+After all the data has been processed and the catalog columns have been organized and cleaned, this program takes all of the different induvidual cube catalogs and merges them into one large catalog, giving each source a designated reference number in the process.
 
 Best Practice Notes
 -----------
 
 There are several things you want to keep in mind when creating a container.
 
-You want to keep your container as small as possible. The idea is you are creating a purpose built containerised environment that can process your data the way you want, and nothing else. This also means your data should not be within the container. It will be passed in outside of the container, and the results will be processed outside the container.
-
-Make sure all of the programs inside your container have generalized paths. It is better to pass in a path to your data rather than have it coded in. This allows more flexibility.
+- You want to keep your container as small as possible. The idea is you are creating a purpose built containerised environment that can process your data the way you want, and nothing else. This also means your data should not be within the container. It will be passed in outside of the container, and the results will be processed outside the container.
+- Make sure all of the programs inside your container have generalized paths. It is better to pass in a path to your data rather than have it coded in. This allows more flexibility.
 
 
 
