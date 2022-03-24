@@ -110,6 +110,7 @@ This particular job requires a path to the data be provided. The previous folder
 To run singularity using slurm, we need to load the singularity module within the slurm script. In the above script, this is done with the following lines.
 
 	.. code-block:: console
+	
 		. /etc/profile.d/modules.sh               
 		module purge                               
 		module load rhel7/default-peta4           
@@ -118,6 +119,7 @@ To run singularity using slurm, we need to load the singularity module within th
 After singularity is loaded in the slurm script, any number of processes in the singularity container can be run. In this example, we are giving slurm the singularity command as an application. The singularity command loads in the desired container, and options then passes the commands to the container so that we can run the desired applications within the container. In this example, we are asking the container to run the program auto_bane_cluster.py in python3 with an input variable "input_folder". In this example, ${FILENAME} is a variable which was passed from the original python3 script outside the container and into this script so multiple jobs can be run on different files. 
 
 	.. code-block:: console
+	
 		#! Full path to application executable:  
 		application="singularity run -B/rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT meerkat_test.sif
 		
