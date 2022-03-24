@@ -22,5 +22,5 @@ Contents
    using_plotms
    CASA_Toolkit
    ddf-pipeline
-   MeerKAT-Point-Source
+   MeerKAT_Point_Source
    
