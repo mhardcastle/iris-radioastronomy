@@ -1,4 +1,4 @@
-.. _MeerKAT-Point-Source:
+.. _MeerKAT_Point_Source:
 
 MeerKAT Point Source Catalog
 =================
