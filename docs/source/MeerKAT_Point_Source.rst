@@ -132,41 +132,50 @@ Processing the MeerKAT data from the cubes is split up into several different pr
 
 File Setup
 -----------
-- To processes the MeerKAT data, you need a folder which contains the following files
-	+ Aegean_Test_Catalogue_Full
-	+ Mom0_comp_catalogs
-	+ Mosaic_Planes
-	+ Singularity
-	+ python_scripts
++ To processes the MeerKAT data, you need a folder which contains the following files:
+	- Aegean_Test_Catalogue_Full
+	- Mom0_comp_catalogs
+	- Mosaic_Planes
+	- Singularity
+	- python_scripts
 
-- The first three folders are required as they contain all of the relevant MeerKAT data that has been processed. The Aegean_Test_Catalogue_Full contains the folders
-	+ Mom0_comp_catalogs  
-	+ Mom0_comp_ds9_regions  
-	+ Mom0_isle_catalogs  
-	+ Mom0_isle_ds9_regions
+The first three folders are required as they contain all of the relevant MeerKAT data that has been processed. The Aegean_Test_Catalogue_Full contains the folders:
+	- Mom0_comp_catalogs  
+	- Mom0_comp_ds9_regions  
+	- Mom0_isle_catalogs  
+	- Mom0_isle_ds9_regions
 
 and can be found by accessing PATH_HERE
 
-- The Mom0_comp_catalogs folder contains all of the moment zero maps of the cubes. These are used to process the average background used.
-	+ Mom0_comp_catalogs  
-	+ Mom0_comp_ds9_regions  
-	+ Mom0_isle_catalogs  
-	+ Mom0_isle_ds9_regions
-
-Process Background
------------
-The below tutorial will walk you through processing the MeerKAT point source catalog using the 
+The Mom0_comp_catalogs folder contains all of the moment zero maps of the cubes. These are used to process the average background used.
+	- Mom0_comp_catalogs  
+	- Mom0_comp_ds9_regions  
+	- Mom0_isle_catalogs  
+	- Mom0_isle_ds9_regions
 
 Process Background
 -----------
  
+ The first step to processing the MeerKAT data cubes is to create the backgrounds for the 0th moment maps. The induvidual backgrounds for each plane have been seperately processed, and the combined zeroth moment is needed to background subtract. The background is processed with the BANE program, part of the Aegean processing package used to make the full point source catalog created by Mubela Mutale and found on the MeerKAT survey repository.
+ 
+ 	.. code-block:: console
+		python3 jobSubmitter_Bane.py
+
+This job submitter is the same one used in the example above, and sends each induvidual cube file path to a singularity container submitted to slurm to process the background.
 
 Process Photometric Catalog
 -----------
-Once the backgrounds have been processed, run the jobSubmitter_Phot.py program. This program takes
+Once the backgrounds have been processed, run the following program.
+
+ 	.. code-block:: console
+		python3 jobSubmitter_Phot.py
+
+This program submits induvidual cubes to slurm, where it reads in the Aegean point source catalog and uses the Bane backgrounds and catalog to measure the photometry for each wavelength in the cube using astropy photometry. These are written to indivudial photometry files for each layer.
 
 Process Spectral Indices and Clean Up Catalog
 -----------
+
+Now that the photometry at each wavelength has been calculated, we can put together a spectral index catalog for each of the induvidual points. The following programs throw out points which are not bright enough and ones which do not have enough measurements in each wavelength.
  
 
 Merging Catalogs
