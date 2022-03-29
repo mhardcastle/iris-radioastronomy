@@ -125,14 +125,24 @@ After singularity is loaded in the slurm script, any number of processes in the 
 		options="python3 /usr/local/MeerKAT/python_programs/auto_bane_cluster.py --input_folder=${FILENAME}"
 
 
+Best Practice Notes
+-----------
+
+There are several things you want to keep in mind when creating a container or writing a script to submit multiple jobs:
+
+- You want to keep your container as small as possible. The idea is you are creating a purpose built containerised environment that can process your data the way you want, and nothing else. This also means your data should not be within the container. It will be passed in outside of the container, and the results will be processed outside the container.
+- Make sure all of the programs inside your container have generalized paths. It is better to pass in a path to your data rather than have it coded in. This allows more flexibility.
+- Make sure all of the programs inside your container have generalized paths. It is better to pass in a path to your data rather than have it coded in. This allows more flexibility.
+- In the following examples, a job may take anywhere from 20 minutes to 2-3 hours. While an induvidual job does not tie up resources for long, the number of jobs means your job may end up in the queue. If you do not recieve an email telling you the job is processing immediatly, first check the queue to see if it has been assigned yet or if it is waiting. Be careful not to accidentally resubmit, otherwise the job will end up inthe queue twice.
+
+
 Running MeerKAT Data Processing
 -----------
 Processing the MeerKAT data from the cubes is split up into several different programs and is dependant on three file locations. For this example, I have a master folder called MeerKAT which contains all of the data needed to create the spectral index catalog.
  
-
 File Setup
 -----------
-+ To processes the MeerKAT data, you need a folder which contains the following files:
+To processes the MeerKAT data, you need a folder which contains the following files:
 	- Aegean_Test_Catalogue_Full
 	- Mom0_comp_catalogs
 	- Mosaic_Planes
@@ -156,12 +166,13 @@ The Mom0_comp_catalogs folder contains all of the moment zero maps of the cubes.
 Process Background
 -----------
  
- The first step to processing the MeerKAT data cubes is to create the backgrounds for the 0th moment maps. The induvidual backgrounds for each plane have been seperately processed, and the combined zeroth moment is needed to background subtract. The background is processed with the BANE program, part of the Aegean processing package used to make the full point source catalog created by Mubela Mutale and found on the MeerKAT survey repository.
+ The first step to processing the MeerKAT data cubes is to create the backgrounds for the 0th moment maps. The induvidual backgrounds for each plane have been seperately processed, and the combined zeroth moment is needed to background subtract. The background is processed with the BANE program, part of the Aegean processing package used to make the full point source catalog created by Mubela Mutale and found on the MeerKAT survey repository. All commands assume you are starting in the MeerKAT folder.
  
  	.. code-block:: console
+		cd python_programs
 		python3 jobSubmitter_Bane.py
 
-This job submitter is the same one used in the example above, and sends each induvidual cube file path to a singularity container submitted to slurm to process the background.
+This job submitter is the same one used in the example above, and sends each induvidual cube file path to a singularity container submitted to slurm to process the background. The output files are written to the Mosaic_Plane folder for each cube.
 
 Process Photometric Catalog
 -----------
@@ -170,25 +181,31 @@ Once the backgrounds have been processed, run the following program.
  	.. code-block:: console
 		python3 jobSubmitter_Phot.py
 
-This program submits induvidual cubes to slurm, where it reads in the Aegean point source catalog and uses the Bane backgrounds and catalog to measure the photometry for each wavelength in the cube using astropy photometry. These are written to indivudial photometry files for each layer.
+This program submits induvidual cubes to slurm, where it reads in the Aegean point source catalog and uses the Bane backgrounds and catalog to measure the photometry for each wavelength in the cube using astropy photometry. These are written to indivudial photometry files for each layer within a given cubes Mosaic_Plane folder, and use the background files to calculate the noise in each anulus.
 
 Process Spectral Indices and Clean Up Catalog
 -----------
 
 Now that the photometry at each wavelength has been calculated, we can put together a spectral index catalog for each of the induvidual points. The following programs throw out points which are not bright enough and ones which do not have enough measurements in each wavelength.
+
+First, the tables need to be properly organized with the correct observation frequencies. To do this
+
+ 	.. code-block:: console
+		python3 jobSubmitter_Freq.py
+
  
 
 Merging Catalogs
 -----------
 After all the data has been processed and the catalog columns have been organized and cleaned, this program takes all of the different induvidual cube catalogs and merges them into one large catalog, giving each source a designated reference number in the process.
 
-Best Practice Notes
------------
+ 	.. code-block:: console
+		python3 jobSubmitter_Combi.py
 
-There are several things you want to keep in mind when creating a container.
+Once the catalogs have been combined, the last step is to assign an ID to all of the sources. To do this, run the following program. This will likely be combined with jobSubmitter_Combi.py in the future.
 
-- You want to keep your container as small as possible. The idea is you are creating a purpose built containerised environment that can process your data the way you want, and nothing else. This also means your data should not be within the container. It will be passed in outside of the container, and the results will be processed outside the container.
-- Make sure all of the programs inside your container have generalized paths. It is better to pass in a path to your data rather than have it coded in. This allows more flexibility.
+	.. code-block:: console
+		python3 jobSubmitter_ID.py
 
 
 
