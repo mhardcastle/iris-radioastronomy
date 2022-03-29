@@ -46,19 +46,42 @@ The code below is an example of how to write a python script which will submit a
 
 		for filename in f:
 
-        	folder=filepath+filename+'/'
-        	sbatch_command = """sbatch --export=folder='{0}' /rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Singularity/run_bane.sh""".format(folder)
-        	print(sbatch_command)
-        	print(folder)
-        	print('Submitting job')
-        	exit_status = subprocess.call(sbatch_command, shell=True)
+        		folder=filepath+filename+'/'
+        		sbatch_command = """sbatch --export=folder='{0}' /rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Singularity/run_bane.sh""".format(folder)
+        		print(sbatch_command)
+        		print(folder)
+        		print('Submitting job')
+        		exit_status = subprocess.call(sbatch_command, shell=True)
 
-        	if exit_status is 1:
-                	print('Job failed to submit')
+        		if exit_status is 1:
+                		print('Job failed to submit')
 
-			print('Done submitting jobs!')
+				print('Done submitting jobs!')
 	
-The above program imports both os and suprocess so that we can use console commands to submit multiple slurm. It takes a filepath to a folder containing all the meerkat cubes and sends each cube as an input to a Singularity container.
+The above program imports both os and suprocess so that we can use console commands to submit multiple slurm. It takes a filepath to a folder containing all the meerkat cubes and sends each cube as an input to a Singularity container. I will break down induvidual lines for clarity.
+
+	.. code-block:: console
+		filepath = '/rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Mosaic_Planes/'
+		f=os.listdir (filepath)
+
+Filepath is the path containing all of the cube folders that will be processed. In each of the MeerKAT scripts it stays the same, and os.listdir then reads in each of the folder names into variable f.
+
+	.. code-block:: console
+		for filename in f:
+
+        		folder=filepath+filename+'/'
+        		sbatch_command = """sbatch --export=folder='{0}' /rds/project/rds-bRdYdViqoGA/bsmart/MeerKAT/Singularity/run_bane.sh""".format(folder)
+        		print(sbatch_command)
+        		print(folder)
+        		print('Submitting job')
+        		exit_status = subprocess.call(sbatch_command, shell=True)
+
+        		if exit_status is 1:
+                		print('Job failed to submit')
+
+				print('Done submitting jobs!')
+				
+The aboce code takes the filepath and adds to it each of the folder names within Mosaic_Planes. I then create the sbatch_command using the new folder variable within the format and write the sbatch command. In this case, {0} tells the command to read the first variable in .format(). If I had included two variables .format(var1,var2) and wanted to access var2, I would use {1} and so forth.
 	
 Creating Slurm Job Submission file
 -----------	
@@ -202,10 +225,12 @@ After all the data has been processed and the catalog columns have been organize
  	.. code-block:: console
 		python3 jobSubmitter_Combi.py
 
-Once the catalogs have been combined, the last step is to assign an ID to all of the sources. To do this, run the following program. This will likely be combined with jobSubmitter_Combi.py in the future.
+The combined point source catalog is written to the MeerKAT folder. Once the catalogs have been combined, the last step is to assign an ID to all of the sources. To do this, run the following program. This will likely be combined with jobSubmitter_Combi.py in the future.
 
 	.. code-block:: console
 		python3 jobSubmitter_ID.py
+		
+
 
 
 
