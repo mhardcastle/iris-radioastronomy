@@ -192,6 +192,7 @@ Process Background
  The first step to processing the MeerKAT data cubes is to create the backgrounds for the 0th moment maps. The induvidual backgrounds for each plane have been seperately processed, and the combined zeroth moment is needed to background subtract. The background is processed with the BANE program, part of the Aegean processing package used to make the full point source catalog created by Mubela Mutale and found on the MeerKAT survey repository. All commands assume you are starting in the MeerKAT folder.
  
  	.. code-block:: console
+	
 		cd python_programs
 		python3 jobSubmitter_Bane.py
 
@@ -202,6 +203,7 @@ Process Photometric Catalog
 Once the backgrounds have been processed, run the following program.
 
  	.. code-block:: console
+	
 		python3 jobSubmitter_Phot.py
 
 This program submits induvidual cubes to slurm, where it reads in the Aegean point source catalog and uses the Bane backgrounds and catalog to measure the photometry for each wavelength in the cube using astropy photometry. These are written to indivudial photometry files for each layer within a given cubes Mosaic_Plane folder, and use the background files to calculate the noise in each anulus.
@@ -214,6 +216,7 @@ Now that the photometry at each wavelength has been calculated, we can put toget
 First, the tables need to be properly organized with the correct observation frequencies. To do this
 
  	.. code-block:: console
+	
 		python3 jobSubmitter_Freq.py
 
  
